@@ -2,10 +2,303 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+
+    <!-- <script src="cdnjs/jquery-3.7.0.js"></script> -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspreadsheet-ce/dist/index.min.js"></script>
+    <script src="https://jsuites.net/v4/jsuites.js"></script>
+    <script src="script/handlers.js"></script>
+    <script src="svg.js"></script>
+    <script src="sheet.js"></script>
+    <script src="main.js"></script>
+    <!--     <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    /> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jspreadsheet-ce/dist/jspreadsheet.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://jsuites.net/v4/jsuites.css" type="text/css" />
+    <link rel="stylesheet" href="style/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;700&display=swap" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Mapchart.com</title>
   </head>
   <body>
-    updated2
+    <div id="container">
+      <!-- DATA SECTION DATA SECTION DATA SECTION DATA SECTION DATA SECTION DATA SECTION DATA SECTION DATA SECTION -->
+      <div id="data-section">
+        <!-- <label for="data-json">Upload JSON file</label>
+        <input type="file" id="data-json" name="data-json" accept="application/json" /> -->
+
+        <fieldset>
+          <legend>Data Table</legend>
+          <div id="data-buttons">
+            <i class="fa-solid fa-file-import fa-2xl"></i>
+            <i class="fa-solid fa-file-export"></i>
+            <i class="fa-solid fa-file-csv"></i>
+            <i class="fa-solid fa-file-arrow-down"></i>
+            <i class="fa-regular fa-file-image"></i>
+            <i class="fa-solid fa-folder-open"></i>
+            <i class="fa-solid fa-floppy-disk"></i>
+            <i class="fa-solid fa-palette"></i>
+            <i class="fa-solid fa-magnifying-glass-plus"></i>
+            <i class="fa-solid fa-magnifying-glass-minus"></i>
+            <i class="fa-solid fa-caret-up"></i>
+            <i class="fa-solid fa-caret-down"></i>
+            <i class="fa-solid fa-caret-down fa-2xs"></i>
+            <i class="fa-solid fa-angle-right"></i>
+            <i class="fa-solid fa-angles-right"></i>
+            <i class="fa-solid fa-arrows-rotate"></i>
+            <i class="fa-solid fa-rotate-right"></i>
+            <i class="fa-solid fa-square-full"></i>
+            <i class="fa-solid fa-minimize"></i>
+            <i class="fa-solid fa-maximize"></i>
+            <i class="fa-solid fa-trash"></i>
+            <i class="fa-solid fa-plus"></i>
+            <i class="fa-solid fa-minus"></i>
+            <i class="fa-solid fa-upload"></i>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Data Table</legend>
+          <div id="spreadsheet"></div>
+        </fieldset>
+      </div>
+
+      <!-- MAPS SECTION MAPS SECTION MAPS SECTION MAPS SECTION MAPS SECTION MAPS SECTION MAPS SECTION MAPS SECTION -->
+      <div id="map-section"></div>
+
+      <!-- SETTINGS SETTINGS SETTINGS SETTINGS SETTINGS SETTINGS SETTINGS SETTINGS SETTINGS SETTINGS SETTINGS SETTINGS -->
+      <div id="settings-section">
+        <div id="usercolor-settings">
+          <fieldset class="loose">
+            <legend>1. Select User Colors</legend>
+            <label for="selected-fill-color">Fill Color</label>
+            <input type="color" id="selected-fill-color" />
+            <div id="selected-fill-color-palette"></div>
+            <label for="selected-border-color">Border Color</label>
+            <input type="color" id="selected-border-color" />
+            <div id="selected-border-color-palette"></div>
+            <label for="selected-background-color">Background Color</label>
+            <input type="color" id="selected-background-color" />
+            <div id="selected-background-color-palette"></div>
+          </fieldset>
+        </div>
+        <div id="label-settings">
+          <fieldset>
+            <legend>2. Legend</legend>
+            <div>Place</div>
+            <div id="ns4" class="ninesides" data-for="legend">
+              <div class="ninesides-item" data-num="1"></div>
+              <div class="ninesides-item" data-num="2"></div>
+              <div class="ninesides-item" data-num="3"></div>
+              <div class="ninesides-item" data-num="4"></div>
+              <div class="ninesides-item" data-num="5"></div>
+              <div class="ninesides-item" data-num="6"></div>
+              <div class="ninesides-item" data-num="7"></div>
+              <div class="ninesides-item" data-num="8"></div>
+              <div class="ninesides-item" data-num="9"></div>
+            </div>
+
+            <div>Title</div>
+            <input id="label1" type="text" placeholder="label" />
+            <label for="label2"></label>
+            <input id="label2" type="text" placeholder="label" />
+            <label for="label3"></label>
+            <input id="label3" type="text" placeholder="label" />
+            <label for="label4"></label>
+            <input id="label4" type="text" placeholder="label" />
+          </fieldset>
+        </div>
+        <div id="algoritm-settings">
+          <fieldset>
+            <legend>3. Select Algorithm</legend>
+            <label for="strategy">Choose a Strategy</label>
+            <select name="strategy" id="strategy">
+              <option value="findmax">findmax</option>
+              <option value="choropleth_percentage" selected>choropleth Percentage</option>
+              <option value="choropleth_equal_interval">Choropleth Eq.Interval</option>
+              <option value="choropleth_standard_dev">Choropleth StdDev</option>
+              <option value="choropleth_pretty_breaks">Choropleth Pretty Breaks</option>
+            </select>
+            <label for="interval">Chropleth Intervals</label>
+            <input type="range" name="interval" id="interval" value="10" min="2" max="10" step="1" />
+            <span id="interval-value">10</span>
+          </fieldset>
+        </div>
+        <div id="palette-settings">
+          <fieldset>
+            <legend>4. SelectPalette</legend>
+
+            <div id="color-palette-container"></div>
+          </fieldset>
+        </div>
+        <div id="title-settings">
+          <fieldset>
+            <legend>5. Title-Footer-Footnote</legend>
+            <div class="">
+              <label for="input-title">Title</label>
+              <input id="input-title" type="text" placeholder="Title" />
+              <input type="checkbox" name="" id="input-title-show" value="" checked />
+              <div id="ns1" class="ninesides" data-for="title">
+                <div class="ninesides-item" data-num="1"></div>
+                <div class="ninesides-item" data-num="2"></div>
+                <div class="ninesides-item" data-num="3"></div>
+                <div class="ninesides-item" data-num="4"></div>
+                <div class="ninesides-item" data-num="5"></div>
+                <div class="ninesides-item" data-num="6"></div>
+                <div class="ninesides-item" data-num="7"></div>
+                <div class="ninesides-item" data-num="8"></div>
+                <div class="ninesides-item" data-num="9"></div>
+              </div>
+
+              <label for="input-footer">Footer</label>
+              <input id="input-footer" type="text" placeholder="footer" />
+              <input type="checkbox" name="" id="input-footer-show" value="" checked />
+              <div id="ns2" class="ninesides" data-for="footer">
+                <div class="ninesides-item" data-num="1"></div>
+                <div class="ninesides-item" data-num="2"></div>
+                <div class="ninesides-item" data-num="3"></div>
+                <div class="ninesides-item" data-num="4"></div>
+                <div class="ninesides-item" data-num="5"></div>
+                <div class="ninesides-item" data-num="6"></div>
+                <div class="ninesides-item" data-num="7"></div>
+                <div class="ninesides-item" data-num="8"></div>
+                <div class="ninesides-item" data-num="9"></div>
+              </div>
+
+              <label for="input-footnote">Footnote</label>
+              <input id="input-footnote" type="text" placeholder="footnote" />
+              <input type="checkbox" name="" id="input-footnote-show" value="" checked />
+              <div id="ns3" class="ninesides" data-for="footnote">
+                <div class="ninesides-item" data-num="1"></div>
+                <div class="ninesides-item" data-num="2"></div>
+                <div class="ninesides-item" data-num="3"></div>
+                <div class="ninesides-item" data-num="4"></div>
+                <div class="ninesides-item" data-num="5"></div>
+                <div class="ninesides-item" data-num="6"></div>
+                <div class="ninesides-item" data-num="7"></div>
+                <div class="ninesides-item" data-num="8"></div>
+                <div class="ninesides-item" data-num="9"></div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <div id="misc-settings">
+          <fieldset>
+            <legend>6. Misc.</legend>
+            <input type="checkbox" id="input-show-borders" value="" checked disabled />
+            <label for="input-show-borders">Show Borders</label>
+
+            <input type="checkbox" id="input-show-names" />
+            <label for="input-show-names">Show Names</label>
+
+            <input type="checkbox" id="input-show-data" />
+            <label for="input-show-data">Show Data</label>
+          </fieldset>
+        </div>
+        <div id="download-settings">
+          <fieldset>
+            <legend>7. Download</legend>
+            <button id="downloadBtn">Download Img</button>
+            <!--<select id="download-size" name="download-size">
+            <option value="small">480x220</option>
+            <option value="medium" selected>720x540</option>
+            <option value="high">1080x720</option>
+          </select> -->
+            <button id="resestBtn">Reset Map</button>
+            <button id="resestBtn">Reset Map</button>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="navigation">
+      <ul class="nav nav-tabs">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Color Map</a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" href="#">Türkiye İller<img src="img/colormap-tumbnail.png" alt="" style="width: 50px" /></a>
+            </li>
+            <li><a class="dropdown-item" href="#">Türkiye İlçeler</a></li>
+            <li><a class="dropdown-item" href="#">Türkiye Bölgeler</a></li>
+            <li><hr class="dropdown-divider" /></li>
+            <li><a class="dropdown-item" href="#">Separated link</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Choropleth</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Türkiye İller</a></li>
+            <li><a class="dropdown-item" href="#">Türkiye İlçeler</a></li>
+            <li><a class="dropdown-item" href="#">Türkiye Bölgeler</a></li>
+            <li><hr class="dropdown-divider" /></li>
+            <li><a class="dropdown-item" href="#">Separated link</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Other Maps</a>
+          <ul class="dropdown-menu"></ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">World</a>
+          <ul class="dropdown-menu"></ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">World</a>
+          <ul class="dropdown-menu"></ul>
+        </li>
+      </ul>
+    </div> -->
+
+    <!--     <div class="content">
+      <div id="interaction">
+        <div>
+          <img id="map-btn" src="cdnjs/svg-icons/right-long-solid.svg" alt="arrow" />
+        </div>
+        <div>
+          <img id="pull-btn" src="cdnjs/svg-icons/left-long-solid.svg" alt="arrow" />
+        </div>
+      </div>
+    </div> -->
+
+    <script>
+      //let mySheet, myMap;
+
+      $(document).ready(() => {
+        console.log(Object.entries(PALETTES));
+        Object.keys(PALETTES).forEach((key) => {
+          $("#color-palette-container").append(`<div class="xcard" name="${key}"></div>`);
+          let curr = $("#color-palette-container .xcard:last-child")[0];
+          PALETTES[key].forEach((elem) => {
+            $(curr).append(`<div class="xbox" style="background-color:${elem}"></div>`);
+          });
+        });
+
+        load();
+      });
+    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>

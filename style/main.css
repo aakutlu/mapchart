@@ -1,0 +1,188 @@
+body {
+  background: #a19eae;
+  background: radial-gradient(at center, #e3e2e7, #96998d);
+  display: grid;
+  place-content: center;
+}
+#container {
+  width: 95vw;
+  height: 90vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+}
+#data-section fieldset:last-child div {
+  width: 20vw;
+  height: 70vh;
+  padding: 1px;
+}
+#spreadsheet {
+  width: 100%;
+  overflow: scroll;
+  scroll-behavior: smooth;
+  /* margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: 0; */
+}
+
+#map-section {
+  flex-grow: 1;
+  width: 100%;
+  height: 100%;
+  padding: 1px;
+}
+#settings-section {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  gap: 1em;
+  flex-wrap: wrap;
+  width: 20vw;
+  padding: 1px;
+}
+#settings-section fieldset {
+  background: white;
+}
+
+#map svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* FEATURES FEATURES FEATURES FEATURES FEATURES FEATURES */
+g#features > g {
+  cursor: pointer;
+  fill: #b8b8b8;
+  stroke: none;
+}
+g#features > g:hover {
+  stroke: rgba(0, 0, 0, 0.5);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+/* SETTINGS */
+#settings-section > div {
+  width: 350px;
+  margin: 1px;
+}
+#settings-section legend {
+  font-family: Poppins, sans-serif;
+  font-weight: 700;
+  background-color: #000;
+  background: radial-gradient(at center, #dceb08, #3cc4d6);
+  color: #fff;
+  padding: 3px 6px;
+}
+
+#usercolor-settings > fieldset {
+  display: grid;
+  grid-template-columns: 23% 10% auto;
+  /* grid-template-rows: 1.8em 1.8em 1.8em 1.8em; */
+  grid-gap: 6px;
+}
+#usercolor-settings > fieldset > div {
+  margin-left: 2rem;
+  align-self: center;
+  justify-self: start;
+}
+#selected-fill-color-palette {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  overflow-x: hidden;
+}
+
+.color-btn {
+  margin: 2px;
+  width: 15px;
+  height: 15px;
+  background-color: grey;
+  border: 1px solid rgb(105, 90, 90);
+}
+.color-btn:hover {
+  margin: 1px;
+  border: 2px solid black;
+  transform: scale(1.05);
+}
+
+#color-palette-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+#color-palette-container .xcard {
+  width: 40px;
+  height: 20px;
+  margin: 3px;
+  display: flex;
+  flex-direction: row;
+}
+#color-palette-container .xcard:hover {
+  transform: scale(1.05);
+}
+
+#color-palette-container .xbox {
+  flex-grow: 1;
+  width: 4px;
+  height: 20px;
+}
+label {
+  font-family: Poppins;
+  font-weight: 600;
+  font-size: 0.6em;
+}
+
+#title-settings > fieldset > div {
+  display: grid;
+  grid-template-columns: 12% auto 9% 9%;
+  grid-template-rows: 1.8em 1.8em 1.8em;
+  grid-gap: 3px;
+}
+#title-settings label {
+  align-self: center;
+  justify-self: end;
+}
+fieldset.loose {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+#label-settings > fieldset {
+  display: grid;
+  grid-template-columns: 14% 80%;
+  grid-gap: 3px;
+}
+
+#label-settings > fieldset > label {
+  display: inline-block;
+  width: 3em;
+  height: 2em;
+  margin: 2px;
+  background-color: #776f6f;
+}
+/* NINESIDES NINESIDES NINESIDES NINESIDES NINESIDES NINESIDES */
+.ninesides {
+  display: inline-grid;
+  grid-template-columns: 8px 8px 8px;
+  grid-template-rows: 8px 8px 8px;
+  grid-row-gap: 1px;
+  grid-column-gap: 1px;
+  justify-items: center;
+  align-items: center;
+  /* border: solid 1px black; */
+  padding: 1px;
+}
+.ninesides-item {
+  width: 8px;
+  height: 8px;
+  background-color: black;
+}
+.ninesides-item:hover {
+  transform: scale(1.05);
+  background-color: beige;
+  border: solid 1px black;
+}
