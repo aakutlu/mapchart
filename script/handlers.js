@@ -91,6 +91,7 @@ function chainListeners() {
   }); */
 
   $("#input-upload-all").on("change", function () {
+    console.log(this.files[0]);
     this.files[0]
       .text()
       .then((text) => {
@@ -98,6 +99,7 @@ function chainListeners() {
         console.log(obj);
         mySheet.setData(obj);
         console.log(mySheet.getData());
+        $("#loaded-filename a").text(`>> ${this.files[0].name}`);
         updateSvg();
       })
       .catch((err) => {
@@ -155,6 +157,11 @@ function chainListeners() {
     else {
       console.log("3rd state");
     }
+  });
+  document.getElementById("download-json").addEventListener("click", (event) => {
+    let data = mySheet.getData();
+    console.log({ data });
+    downloadObjectAsJson(data, { filename: "data.json" });
   });
 }
 /* END END END END END END END END END END END END END END END END END*/

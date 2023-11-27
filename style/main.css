@@ -1,3 +1,7 @@
+:root {
+  --color1: white;
+  --color2: white;
+}
 body {
   background: #a19eae;
   background: radial-gradient(at center, #e3e2e7, #96998d);

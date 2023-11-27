@@ -176,7 +176,16 @@ setFeaturesDataVisibility = (bool) => {
 
   /* MARK, UNMARK, CLEARMARKS */
   mark = (features) => {
+    let root = document.querySelector(':root');
+    var rootStyle = getComputedStyle(root);
+    //rootStyle.getPropertyValue('--color1')
+    //root.style.setProperty('--color1', 'lightblue');
     features.forEach((id) => {
+      //$(this.container).find(`g#features #${id}`).css("fill", "url(#checked)");
+      //$(this.container).find(`g#features #${id}`).css("fill-opacity", "1");
+      let color = $(this.container).find(`g#features #${id}`).css("fill");
+      root.style.setProperty('--color1', color);
+      console.log(rootStyle.getPropertyValue('--color1'));
       $(this.container).find(`g#features #${id}`).css("fill", "url(#checked)");
     });
   };
