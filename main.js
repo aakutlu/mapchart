@@ -22,7 +22,8 @@ let PALETTES = {
   YELLOW_TO_RED: ["#ffba08", "#faa307", "#f48c06", "#e85d04", "#dc2f02", "#d00000", "#9d0208", "#6a040f", "#370617", "#03071e"],
   YELLOW_TO_GREEN: ["#ffff3f", "#eeef20", "#dddf00", "#d4d700", "#bfd200", "#aacc00", "#80b918", "#55a630", "#2b9348", "#007f5f"],
   RAINBOW: ["#ff0000", "#ff8700", "#ffd300", "#deff0a", "#a1ff0a", "#0aff99", "#0aefff", "#147df5", "#580aff", "#be0aff"],
-  DARK: ["#ff0000", "#ff7b00", "#ffd300", "#a564d3", "#a1ff0a", "#10451d", "#0aefff", "#147df5", "#580aff", "#be0aff"],
+  PALETTE1: ["#ff8700", "#0096c7", "#ff0000", "#6a040f", "#a1ff0a", "#10451d", "#0aefff", "#147df5", "#580aff", "#be0aff"],
+  PALETTE2: ["#e95555", "#4ad66d", "#00b4d8", "#ffb700", "#f2a8ff", "#a8a39f", "#ff8500", "#147df5", "#580aff", "#be0aff"],
 
   /*   STD_DEV_8: ["#ffee9d", "#ffe14e", "#ffd300", "#ff7900", "#ff4800", "#e5383b", "#ba181b", "#660708"],
   HOT_COLORS: ["#d7263d", "#f46036", "#2e294e", "#1b998b", "#c5d86d", "#CDB7B7", "#4ba3c3", "#fbba72", "#ef798a", "#7d82b8"],

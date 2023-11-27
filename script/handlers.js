@@ -28,9 +28,11 @@ function chainListeners() {
     $("#selected-background-color-palette").empty().append(object);
   });
 
-  $("#color-palette-container .xcard").on("click", (event) => {
+  $("#color-palette-container .paletteCard").on("click", (event) => {
     //if (this !== event.target) return;
     let name = $(event.target).parent().attr("name");
+    $("#color-palette-container .paletteCard").removeClass("xxlcard");
+    $(event.target).parent().addClass("xxlcard");
     console.log(event.target, PALETTES, name);
     MAP_SETTINGS.COLOR_PALETTE = [...PALETTES[name]];
     updateSvg();
@@ -88,7 +90,7 @@ function chainListeners() {
     //do something
   }); */
 
-  $("#data-json").on("change", function () {
+  $("#input-upload-all").on("change", function () {
     this.files[0]
       .text()
       .then((text) => {
@@ -112,15 +114,6 @@ function chainListeners() {
     MAP_SETTINGS.INTERVAL = parseInt(event.target.value);
     updateSvg();
   });
-  /*   document.getElementById("layout1Btn").addEventListener("click", (event) => {
-    setLayout1();
-  });
-  document.getElementById("layout2Btn").addEventListener("click", (event) => {
-    setLayout2();
-  });
-  document.getElementById("layout3Btn").addEventListener("click", (event) => {
-    setLayout3();
-  }); */
 
   document.querySelectorAll(".ninesides-item").forEach((elem) => {
     elem.addEventListener("click", (event) => {

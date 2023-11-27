@@ -49,34 +49,34 @@
         <fieldset>
           <legend>Data Table</legend>
           <div id="data-buttons">
-            <i class="fa-solid fa-file-import fa-2xl"></i>
-            <i class="fa-solid fa-file-export"></i>
-            <i class="fa-solid fa-file-csv"></i>
-            <i class="fa-solid fa-file-arrow-down"></i>
-            <i class="fa-regular fa-file-image"></i>
-            <i class="fa-solid fa-folder-open"></i>
-            <i class="fa-solid fa-floppy-disk"></i>
-            <i class="fa-solid fa-palette"></i>
-            <i class="fa-solid fa-magnifying-glass-plus"></i>
-            <i class="fa-solid fa-magnifying-glass-minus"></i>
-            <i class="fa-solid fa-caret-up"></i>
-            <i class="fa-solid fa-caret-down"></i>
-            <i class="fa-solid fa-caret-down fa-2xs"></i>
-            <i class="fa-solid fa-angle-right"></i>
-            <i class="fa-solid fa-angles-right"></i>
-            <i class="fa-solid fa-arrows-rotate"></i>
-            <i class="fa-solid fa-rotate-right"></i>
-            <i class="fa-solid fa-square-full"></i>
-            <i class="fa-solid fa-minimize"></i>
-            <i class="fa-solid fa-maximize"></i>
-            <i class="fa-solid fa-trash"></i>
-            <i class="fa-solid fa-plus"></i>
-            <i class="fa-solid fa-minus"></i>
-            <i class="fa-solid fa-upload"></i>
+            <label for="input-upload-all">
+              <i class="fa-solid fa-folder-open" title="open file"></i>
+              <input type="file" id="input-upload-all" name="upload-all" accept=".csv,.json,.xlsx" />
+            </label>
+            <label id="download-csv">
+              <i class="fa-solid fa-file-csv" title="download as .csv"></i>
+              <!-- <input type="file" id="input-upload-all" name="data-json" accept="application/json"/> -->
+            </label>
+            <label id="download-xlsx">
+              <i class="fa-solid fa-file-excel" title="download as .xlsx"></i>
+              <!-- <input type="file" id="input-upload-all" name="data-json" accept="application/json"/> -->
+            </label>
+            <label id="download-json">
+              <i class="fa-solid fa-file-code" title="download as json"></i>
+              <!-- <input type="file" id="input-upload-all" name="data-json" accept="application/json"/> -->
+            </label>
+            <label id="download-any">
+              <i class="fa-solid fa-file-arrow-down" title="download as any type"></i>
+              <!-- <input type="file" id="input-upload-all" name="data-json" accept="application/json"/> -->
+            </label>
+
+            <!-- <i class="fa-solid fa-file-export " title="export file"></i>
+            <i class="fa-solid fa-file-csv " title="download as .csv"></i>
+            <i class="fa-solid fa-file-excel " title="download as .xlsx"></i>
+            <i class="fa-solid fa-file-code " title="download as json"></i>
+            <i class="fa-solid fa-file-arrow-down " title="download as json"></i>
+            <i class="fa-solid fa-floppy-disk " title="download as .xlsx"></i> -->
           </div>
-        </fieldset>
-        <fieldset>
-          <legend>Data Table</legend>
           <div id="spreadsheet"></div>
         </fieldset>
       </div>
@@ -88,7 +88,7 @@
       <div id="settings-section">
         <div id="usercolor-settings">
           <fieldset class="loose">
-            <legend>1. Select User Colors</legend>
+            <legend><i class="fa-solid fa-paintbrush"></i> Select User Colors</legend>
             <label for="selected-fill-color">Fill Color</label>
             <input type="color" id="selected-fill-color" />
             <div id="selected-fill-color-palette"></div>
@@ -102,7 +102,7 @@
         </div>
         <div id="label-settings">
           <fieldset>
-            <legend>2. Legend</legend>
+            <legend><i class="fa-solid fa-tag"></i> Legend</legend>
             <div>Place</div>
             <div id="ns4" class="ninesides" data-for="legend">
               <div class="ninesides-item" data-num="1"></div>
@@ -128,7 +128,7 @@
         </div>
         <div id="algoritm-settings">
           <fieldset>
-            <legend>3. Select Algorithm</legend>
+            <legend><i class="fa-brands fa-pagelines"></i> Select Algorithm</legend>
             <label for="strategy">Choose a Strategy</label>
             <select name="strategy" id="strategy">
               <option value="findmax">findmax</option>
@@ -144,14 +144,14 @@
         </div>
         <div id="palette-settings">
           <fieldset>
-            <legend>4. SelectPalette</legend>
+            <legend><i class="fa-solid fa-palette"></i> SelectPalette</legend>
 
             <div id="color-palette-container"></div>
           </fieldset>
         </div>
         <div id="title-settings">
           <fieldset>
-            <legend>5. Title-Footer-Footnote</legend>
+            <legend><i class="fa-solid fa-receipt"></i> Title-Footer-Footnote</legend>
             <div class="">
               <label for="input-title">Title</label>
               <input id="input-title" type="text" placeholder="Title" />
@@ -202,7 +202,7 @@
         </div>
         <div id="misc-settings">
           <fieldset>
-            <legend>6. Misc.</legend>
+            <legend><i class="fa-solid fa-feather"></i> Misc.</legend>
             <input type="checkbox" id="input-show-borders" value="" checked disabled />
             <label for="input-show-borders">Show Borders</label>
 
@@ -215,7 +215,7 @@
         </div>
         <div id="download-settings">
           <fieldset>
-            <legend>7. Download</legend>
+            <legend><i class="fa-solid fa-download"></i> Download</legend>
             <button id="downloadBtn">Download Img</button>
             <!--<select id="download-size" name="download-size">
             <option value="small">480x220</option>
@@ -285,12 +285,13 @@
       $(document).ready(() => {
         console.log(Object.entries(PALETTES));
         Object.keys(PALETTES).forEach((key) => {
-          $("#color-palette-container").append(`<div class="xcard" name="${key}"></div>`);
-          let curr = $("#color-palette-container .xcard:last-child")[0];
+          $("#color-palette-container").append(`<div class="paletteCard smcard" name="${key}"></div>`);
+          let curr = $("#color-palette-container .paletteCard:last-child")[0];
           PALETTES[key].forEach((elem) => {
             $(curr).append(`<div class="xbox" style="background-color:${elem}"></div>`);
           });
         });
+        $('#color-palette-container .paletteCard[name="GRAY"]').addClass("xxlcard");
 
         load();
       });

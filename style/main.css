@@ -6,13 +6,32 @@ body {
 }
 #container {
   width: 95vw;
-  height: 90vh;
+  /* height: 100vh; */
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-content: center;
 }
-#data-section fieldset:last-child div {
+#data-section #data-buttons {
+  margin-bottom: 0px;
+  color: rgb(83, 83, 81);
+}
+#data-section #data-buttons i:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+}
+#data-section #data-buttons label {
+  font-size: x-large;
+  /* border: 1px solid #ccc; */
+  display: inline-block;
+  padding: 1px 1px;
+  cursor: pointer;
+}
+#data-section #data-buttons label > input {
+  display: none;
+}
+
+#data-section fieldset > div:last-child {
   width: 20vw;
   height: 70vh;
   padding: 1px;
@@ -114,21 +133,32 @@ g#features > g:hover {
   display: flex;
   flex-wrap: wrap;
 }
-#color-palette-container .xcard {
-  width: 40px;
-  height: 20px;
-  margin: 3px;
+#color-palette-container .paletteCard {
   display: flex;
   flex-direction: row;
+  margin: 3px;
 }
-#color-palette-container .xcard:hover {
+#color-palette-container .smcard {
+  width: 40px;
+  height: 20px;
+}
+
+#color-palette-container .xxlcard {
+  width: 100%;
+  height: 50px;
+  order: 99;
+}
+#color-palette-container .xxlcard:hover {
+  transform: none !important;
+}
+#color-palette-container .paletteCard:hover {
   transform: scale(1.05);
 }
 
 #color-palette-container .xbox {
   flex-grow: 1;
   width: 4px;
-  height: 20px;
+  height: 100%;
 }
 label {
   font-family: Poppins;
