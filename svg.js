@@ -186,7 +186,7 @@ setFeaturesDataVisibility = (bool) => {
       let color = $(this.container).find(`g#features #${id}`).css("fill");
       root.style.setProperty('--color1', color);
       console.log(rootStyle.getPropertyValue('--color1'));
-      $(this.container).find(`g#features #${id}`).css("fill", "url(#checked)");
+      $(this.container).find(`g#features #${id}`).css("fill", "url(#striped-thin)");
     });
   };
   unmark = (features) => {
@@ -231,24 +231,30 @@ setFeaturesDataVisibility = (bool) => {
     Object.keys(this.state.features).forEach((key) => {
       let feature = this.state.features[key];
       let gElem = $(this.container).find(`g#features #${key}`)[0];
-      let svgRect = gElem.getBBox();
-      let target = $("g#data-section")[0];
-      target.insertAdjacentHTML(
-        "beforeend",
-        `<text class="feature-label" x="${svgRect.x + svgRect.width / 2}" y="${svgRect.y + svgRect.height / 2}" style="visibility:${feature.showLabel ? 'visible' : 'hidden'}">${feature.label}</text>`
-      );
+      console.log(gElem)
+      if(gElem){
+        let svgRect = gElem.getBBox();
+        let target = $("g#data-section")[0];
+        target.insertAdjacentHTML(
+          "beforeend",
+          `<text class="feature-label" x="${svgRect.x + svgRect.width / 2}" y="${svgRect.y + svgRect.height / 2}" style="visibility:${feature.showLabel ? 'visible' : 'hidden'}">${feature.label}</text>`
+        );
+      }
+
     });
   };
   injectFeatureData = () => {
     Object.keys(this.state.features).forEach((key) => {
       let feature = this.state.features[key];
       let gElem = $(this.container).find(`g#features #${key}`)[0];
-      let svgRect = gElem.getBBox();
-      let target = $("g#data-section")[0];
-      target.insertAdjacentHTML(
-        "beforeend",
-        `<text class="feature-data" x="${svgRect.x + svgRect.width / 2}" y="${svgRect.y + svgRect.height / 2}" style="visibility:${feature.showData ? 'visible' : 'hidden'}">${feature.data}</text>`
-      );
+      if(gElem){
+        let svgRect = gElem.getBBox();
+        let target = $("g#data-section")[0];
+        target.insertAdjacentHTML(
+          "beforeend",
+          `<text class="feature-data" x="${svgRect.x + svgRect.width / 2}" y="${svgRect.y + svgRect.height / 2}" style="visibility:${feature.showData ? 'visible' : 'hidden'}">${feature.data}</text>`
+        );
+      }
     });
   };
   injectTitle = (position) => {

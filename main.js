@@ -50,10 +50,10 @@ let MAP_SETTINGS = {
 let mySheet, mySvg;
 
 async function load() {
-  mySheet = new Sheet("data/armenia.json", document.querySelector("#spreadsheet"), null, null, null);
+  mySheet = new Sheet("data/grades.json", document.querySelector("#spreadsheet"), null, null, null);
   await mySheet.initialize();
 
-  const response = await fetch("maps/_armenia.svg");
+  const response = await fetch("maps/türkiye-iller.svg");
   if (!response.ok) {
     const message = `An Error has occured: ${response.status}`;
     throw new Error(message);

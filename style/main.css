@@ -1,5 +1,5 @@
 :root {
-  --color1: white;
+  --color1: black;
   --color2: white;
 }
 body {
@@ -52,8 +52,13 @@ body {
 #map-section {
   flex-grow: 1;
   width: 100%;
-  height: 100%;
+  height: 90vh;
   padding: 1px;
+}
+#map-section svg {
+  width: 100%;
+  height: 100%;
+  border: solid 1px black;
 }
 #settings-section {
   width: 100%;
@@ -69,23 +74,6 @@ body {
 }
 #settings-section fieldset {
   background: white;
-}
-
-#map svg {
-  width: 100%;
-  height: 100%;
-}
-
-/* FEATURES FEATURES FEATURES FEATURES FEATURES FEATURES */
-g#features > g {
-  cursor: pointer;
-  fill: #b8b8b8;
-  stroke: none;
-}
-g#features > g:hover {
-  stroke: rgba(0, 0, 0, 0.5);
-  stroke-width: 3px;
-  stroke-linejoin: round;
 }
 
 /* SETTINGS */

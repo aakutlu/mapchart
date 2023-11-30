@@ -1,0 +1,56 @@
+:root {
+  --feature-color: #b8b8b8;
+  --stroke-color: white;
+}
+g {
+  fill: var(--feature-color);
+  stroke: var(--stroke-color);
+  stroke-width: 1px;
+}
+g#features path:hover {
+  fill: url(#striped-thick);
+}
+g text {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  stroke: none;
+  text-transform: capitalize;
+  pointer-events: none;
+  text-shadow: 1px 0 0 white, 0 1px 0 white, -1px 0 0 white, 0 -1px 0 white;
+  fill: black;
+}
+g text.feature-data {
+  /* dominant-baseline: middle; */
+  text-anchor: middle;
+  transform: translate(0, 0.7rem);
+}
+g text.feature-label {
+  /* dominant-baseline: middle; */
+  text-anchor: middle;
+}
+
+g#title text {
+  font-size: 2rem;
+  text-anchor: middle;
+}
+g#footer text {
+  font-size: 0.7rem;
+  text-anchor: start;
+  text-transform: none;
+}
+g#footnote text {
+  font-size: 0.7rem;
+  font-weight: 400;
+  text-anchor: start;
+  text-transform: none;
+}
+
+g#legend text {
+  text-anchor: start;
+  /* dominant-baseline: middle; */
+}
+g#legend.choropleth text {
+  text-anchor: middle;
+  /* dominant-baseline: middle; */
+}
