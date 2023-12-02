@@ -1,13 +1,13 @@
 [
-  ["Aragaccotn", 12],
-  ["Ararat", 15],
-  ["Armavir", 19],
-  ["Erevan", 112],
-  ["Gegarkunik", 213],
-  ["Kotayk", 219],
-  ["Lori", 300],
-  ["Sirak", 400],
-  ["Syunik", 450],
-  ["Tavus", 900],
-  ["Vayocjor", 1650]
+  ["AM-AG", 12],
+  ["AM-AR", 15],
+  ["AM-AV", 19],
+  ["AM-ER", 112],
+  ["AM-GR", 213],
+  ["AM-KT", 219],
+  ["AM-LO", 300],
+  ["AM-SH", 400],
+  ["AM-SU", 450],
+  ["AM-TV", 900],
+  ["AM-VD", 1650]
 ]

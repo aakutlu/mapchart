@@ -8,6 +8,16 @@ body {
   display: grid;
   place-content: center;
 }
+#selectmaps {
+  display: flex;
+  justify-content: center;
+  margin: 0.5em;
+  margin-bottom: 1em;
+}
+#selectmaps > select {
+  width: 20em;
+  margin: 1em;
+}
 #container {
   width: 95vw;
   /* height: 100vh; */

@@ -238,4 +238,6 @@
   <g id="footnote"></g>
   <g id="legend"></g>
   <g id="data-section"></g>
+  <rect x="0" y="0.33000001311302185" width="773.47998046875" height="611.6699829101562" stroke-width="1" style="stroke: red;fill: none;"></rect>
+  <rect x="-10" y="-50" width="793.47998046875" height="911.6699829101562" stroke-width="5" style="stroke: green;fill: none;"></rect>
 </svg>

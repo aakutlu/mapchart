@@ -44,16 +44,7 @@ class Svg {
       font_size: "1rem",
       font_weight: "500",
       labels: [
-        { text: "galatasaray", color: "red" },
-        { text: "fenerbahçe", color: "blue" },
-        { text: "beşiktaş", color: "pink" },
-        { text: "beşiktaş", color: "cyan" },
-        { text: "beşiktaş", color: "purple" },
-        { text: "beşiktaş", color: "gray" },
-        { text: "beşiktaş", color: "yellow" },
-        { text: "beşiktaş", color: "red" },
-        { text: "beşiktaş", color: "green" },
-        { text: "beşiktaş", color: "pink" },
+        /* { text: "galatasaray", color: "red" } */
       ],
     },
     features: {
@@ -88,6 +79,7 @@ class Svg {
   }
 
   initialize = () => {
+    $(this.container).empty();
     this.container.insertAdjacentHTML("beforeend", this.sourceSvg);
     this.paintBackground(null)
     this.paintFeaturesAll();
@@ -359,6 +351,7 @@ setFeaturesDataVisibility = (bool) => {
       legendContainer.insertAdjacentHTML("beforeend", `<text class="" x="${x + counter + width / 2}" y="${y - 10}">${label.text}</text>`);
     });
 
+      //PLOT GRAPHS
     let features = this.state.features
     let plotArr = []
     Object.entries(features).forEach(arr => {
@@ -369,7 +362,7 @@ setFeaturesDataVisibility = (bool) => {
       else if(plotArr[num] >= 0)
         plotArr[num]++;
       else{
-        //doo nothing
+        //do nothing
       }
     })
     for (let i = 0; i < plotArr.length; i++) {
@@ -380,6 +373,7 @@ setFeaturesDataVisibility = (bool) => {
     console.log({interval})
     plotArr.forEach((elem,i,arr) => {
       let px = parseInt((x + width + i/(arr.length-1)*interval*width))
+      console.log({px,width, i,arr, interval, width})
       if(elem){
         legendContainer.insertAdjacentHTML("beforeend", `<path d="M ${px} ${y+20} L ${px} ${20+elem*6}" stroke="red" stroke-width="6"/>`);
       }

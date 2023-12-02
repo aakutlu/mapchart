@@ -18,12 +18,14 @@
     <script src="svg.js"></script>
     <script src="sheet.js"></script>
     <script src="main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!--     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
       crossorigin="anonymous"
     /> -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jspreadsheet-ce/dist/jspreadsheet.min.css" type="text/css" />
     <link rel="stylesheet" href="https://jsuites.net/v4/jsuites.css" type="text/css" />
     <link rel="stylesheet" href="style/main.css" />
@@ -41,6 +43,19 @@
     <title>Mapchart.com</title>
   </head>
   <body>
+    <div id="selectmaps">
+      <select name="countries" id="select-countries"></select>
+      <select name="maptypes" id="select-maptypes">
+        <option value="choropleth">Choropleth</option>
+        <option value="maxcolumn">Max Column</option>
+      </select>
+      <select name="strategy" id="select-strategy">
+        <option value="percentage">Percentage</option>
+        <option value="equalInterval">Equal Interval</option>
+        <option value="standardDeviation">Standard Deviation</option>
+        <option value="prettyBreaks">Pretty Breaks</option>
+      </select>
+    </div>
     <div id="container">
       <!-- DATA SECTION DATA SECTION DATA SECTION DATA SECTION DATA SECTION DATA SECTION DATA SECTION DATA SECTION -->
       <div id="data-section">
@@ -349,7 +364,53 @@
         });
         $('#color-palette-container .paletteCard[name="GRAY"]').addClass("xxlcard");
 
-        load();
+        //load();
+
+        /* Select Boxes Select Boxes Select Boxes */
+        var data = [
+          { id: "-1", text: "" },
+          { id: "TR", text: "Türkiye" },
+          { id: "AZ", text: "Azerbaijan" },
+          { id: "SY", text: "Syria" },
+          { id: "IR", text: "Iran" },
+        ];
+        $("#select-countries").select2({
+          placeholder: { id: "-1", text: "Select a map" },
+          /* allowClear: true, */
+          /* data: data, */
+        });
+        var countrySelect = $("#select-countries");
+        $.ajax({
+          type: "GET",
+          url: "api/countries-en.json",
+        }).then(function (data) {
+          console.log({ data });
+          Object.entries(data).forEach((arr) => {
+            console.log(arr);
+            let option = new Option(arr[1], arr[0], false, false);
+            countrySelect.append(option); //.trigger("change");
+          });
+          $("#select-countries").val("TR").trigger("select");
+          // manually trigger the `select2:select` event
+          /* countrySelect.trigger({
+            type: "select2:select",
+            params: {
+              data: data,
+            },
+          }); */
+        });
+        $("#select-countries").on("select2:select", function (event) {
+          console.log("select event");
+          load(event.target.value);
+        });
+        $("#select-maptypes").select2({
+          placeholder: { id: "-1", text: "Select a map type" },
+          minimumResultsForSearch: Infinity,
+        });
+        $("#select-strategy").select2({
+          placeholder: { id: "-1", text: "Select map painting strategy" },
+          minimumResultsForSearch: Infinity,
+        });
       });
     </script>
     <script
