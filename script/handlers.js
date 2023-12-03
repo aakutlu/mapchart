@@ -160,6 +160,13 @@ function chainListeners() {
   });
   document.getElementById("download-json").addEventListener("click", (event) => {
     let data = mySheet.getData();
+    data = data.map((arr) => {
+      let reversed = arr.toReversed();
+      while (reversed[0] === "") {
+        reversed.shift();
+      }
+      return reversed.reverse();
+    });
     console.log({ data });
     downloadObjectAsJson(data, { filename: "data.json" });
   });

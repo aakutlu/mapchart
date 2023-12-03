@@ -32,7 +32,10 @@
     <link rel="stylesheet" href="style/svg-styles.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;700&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
@@ -296,8 +299,77 @@
       </div>
     </div> -->
     <div name="hiddenSvg" style="position: absolute; top: -999; left: -999; z-index: -999">
-      <svg version="1.1" width="0" height="0" xmlns="http://www.w3.org/2000/svg">
+      <svg id="hiddenSvg" version="1.1" width="0" height="0" xmlns="http://www.w3.org/2000/svg">
         <defs>
+          <style>
+            @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+            :root {
+              --feature-color: #b8b8b8;
+              --stroke-color: white;
+            }
+            g {
+              fill: var(--feature-color);
+              stroke: var(--stroke-color);
+              stroke-width: 1px;
+            }
+            g#features path:hover {
+              fill: url(#striped-thin);
+            }
+            g text {
+              font-family: Poppins, monospace;
+              font-size: 0.6rem;
+              font-weight: 700;
+              stroke: none;
+              text-transform: capitalize;
+              pointer-events: none;
+              text-shadow: 1px 0 0 white, 0 1px 0 white, -1px 0 0 white, 0 -1px 0 white;
+              fill: black;
+            }
+            g text.feature-data {
+              /* dominant-baseline: middle; */
+              text-anchor: middle;
+              transform: translate(0, 0.7rem);
+            }
+            g text.feature-label {
+              /* dominant-baseline: middle; */
+              text-anchor: middle;
+            }
+
+            g#title text {
+              font-size: 2rem;
+              text-anchor: middle;
+            }
+            g#footer text {
+              font-size: 0.7rem;
+              text-anchor: start;
+              text-transform: none;
+            }
+            g#footnote text {
+              font-size: 0.7rem;
+              font-weight: 400;
+              text-anchor: start;
+              text-transform: none;
+            }
+
+            g#histogram text {
+              font-size: 0.5rem;
+              font-weight: 600;
+              text-anchor: middle;
+              text-transform: none;
+            }
+
+            g#legend {
+              cursor: pointer;
+            }
+            g#legend text {
+              text-anchor: start;
+              /* dominant-baseline: middle; */
+            }
+            g#legend.choropleth text {
+              text-anchor: middle;
+              /* dominant-baseline: middle; */
+            }
+          </style>
           <pattern id="orgu" width="32" height="32" patternUnits="userSpaceOnUse" patternTransform="rotate(0 50 50)">
             <!-- <rect x="0" y="0" width="40" height="40" fill="red" stroke="black"></rect> -->
             <rect x="0" y="0" width="16" height="16" fill="url(#striped-vertical) "></rect>
@@ -386,11 +458,10 @@
         }).then(function (data) {
           console.log({ data });
           Object.entries(data).forEach((arr) => {
-            console.log(arr);
             let option = new Option(arr[1], arr[0], false, false);
             countrySelect.append(option); //.trigger("change");
           });
-          $("#select-countries").val("TR").trigger("select");
+          $("#select-countries").val("TR").trigger("select2:select");
           // manually trigger the `select2:select` event
           /* countrySelect.trigger({
             type: "select2:select",

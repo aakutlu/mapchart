@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
 :root {
   --feature-color: #b8b8b8;
   --stroke-color: white;
@@ -8,7 +9,7 @@ g {
   stroke-width: 1px;
 }
 g#features path:hover {
-  fill: url(#striped-thick);
+  fill: url(#striped-thin);
 }
 g text {
   font-family: "Poppins", sans-serif;
@@ -29,7 +30,6 @@ g text.feature-label {
   /* dominant-baseline: middle; */
   text-anchor: middle;
 }
-
 g#title text {
   font-size: 2rem;
   text-anchor: middle;
@@ -45,7 +45,15 @@ g#footnote text {
   text-anchor: start;
   text-transform: none;
 }
-
+g#histogram text {
+  font-size: 0.5rem;
+  font-weight: 600;
+  text-anchor: middle;
+  text-transform: none;
+}
+g#legend {
+  cursor: pointer;
+}
 g#legend text {
   text-anchor: start;
   /* dominant-baseline: middle; */

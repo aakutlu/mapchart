@@ -62,12 +62,12 @@ async function load(countryCode) {
 
   //convert BAD INPUT to number
   let data = mySheet.getData();
-  data = data.map((arr) =>
+  /*   data = data.map((arr) =>
     arr.map((elem, i, arr) => {
       if (i == 0) return elem;
       return parseFloat(elem) || 0;
     })
-  );
+  ); */
   let state = calcMapState(data);
   myMap = new Svg(svg, $("#map-section")[0], state);
   myMap.initialize();
@@ -78,13 +78,13 @@ async function load(countryCode) {
 function updateSvg() {
   //convert BAD INPUT to number
   let data = mySheet.getData();
-  data = data.map((arr) =>
+  /*   data = data.map((arr) =>
     arr.map((elem, i, arr) => {
       if (i == 0) return elem;
       return parseFloat(elem) || 0;
     })
-  );
-  console.log(data);
+  ); */
+  console.log({ data });
   let state = calcMapState(data);
   myMap.updateState(state);
   myMap.refresh();
@@ -130,7 +130,6 @@ calcMapStateFindMax = (sheetData) => {
   let resultState = {};
   resultState.legend = { labels: [] };
   resultState.features = {};
-  console.log(sheetData);
   console.log({ sheetData });
   // set feature data
   sheetData.forEach((arr) => {
@@ -166,17 +165,28 @@ calcMapStateChoroplethPercentage = (sheetData, TOTAL_INTERVAL = 10) => {
   let resultState = {};
   resultState.legend = { labels: [] };
   resultState.features = {};
-
+  console.log({ sheetData });
   // set feature data
   sheetData.forEach((arr) => {
     let key = arr[0];
-    let value = arr[1]; //bigNumberFormatter(arr[1].toString());
-    resultState.features[key] = {
-      label: key,
-      data: bigNumberFormatter(value.toString()), //value,
-      color: MAP_SETTINGS.COLOR_PALETTE[colorIndex(value)],
-      opacity: (value / 100) % 1,
-    };
+    let value = arr[1];
+
+    if (!isNaN(parseInt(value))) {
+      resultState.features[key] = {
+        label: key,
+        data: bigNumberFormatter(value.toString()),
+        color: MAP_SETTINGS.COLOR_PALETTE[colorIndex(value)],
+        opacity: (value / 100) % 1,
+      };
+    } else {
+      //if NaN
+      resultState.features[key] = {
+        label: key,
+        data: "",
+        color: "",
+        opacity: undefined,
+      };
+    }
   });
   // set legend labels
   resultState.legend.labels = [
@@ -195,12 +205,17 @@ calcMapStateChoroplethPercentage = (sheetData, TOTAL_INTERVAL = 10) => {
 };
 
 calcMapStateChoroplethEqualInterval = (sheetData, TOTAL_INTERVAL = 10) => {
-  let min = Math.min(...sheetData.map((elem) => elem[1]));
-  let max = Math.max(...sheetData.map((elem) => elem[1]));
+  console.log({ sheetData });
+  let meaningfulData = sheetData
+    .map((elem) => elem[1])
+    .filter((elem) => !isNaN(parseInt(elem)))
+    .map((elem) => parseFloat(elem));
+  let min = Math.min(...meaningfulData);
+  let max = Math.max(...meaningfulData);
   let resultState = {};
   resultState.legend = { labels: [] };
   resultState.features = {};
-
+  console.log({ meaningfulData, min, max });
   let intervalArr = [];
   if (2 >= TOTAL_INTERVAL <= 10) {
     let range = max - min;
@@ -220,12 +235,21 @@ calcMapStateChoroplethEqualInterval = (sheetData, TOTAL_INTERVAL = 10) => {
   sheetData.forEach((arr) => {
     let key = arr[0];
     let value = arr[1];
-    resultState.features[key] = {
-      label: key,
-      data: bigNumberFormatter(value.toString()),
-      color: MAP_SETTINGS.COLOR_PALETTE[getNormalizedColorPaletteIndex(getIntervalIndex(intervalArr, value), TOTAL_INTERVAL)],
-      opacity: getNormalizedColorPaletteIndex(getIntervalIndex(intervalArr, value), TOTAL_INTERVAL) / 10,
-    };
+    if (parseInt(value) || value === 0) {
+      resultState.features[key] = {
+        label: key,
+        data: bigNumberFormatter(value.toString()),
+        color: MAP_SETTINGS.COLOR_PALETTE[getNormalizedColorPaletteIndex(getIntervalIndex(intervalArr, value), TOTAL_INTERVAL)],
+        opacity: getNormalizedColorPaletteIndex(getIntervalIndex(intervalArr, value), TOTAL_INTERVAL) / 10,
+      };
+    } else {
+      resultState.features[key] = {
+        label: key,
+        data: "",
+        color: "",
+        opacity: undefined,
+      };
+    }
   });
   // set legend labels
   intervalArr.forEach((elem, i) => {
@@ -243,23 +267,36 @@ calcMapStateChoroplethEqualInterval = (sheetData, TOTAL_INTERVAL = 10) => {
 };
 
 calcMapStateChoroplethStandardDeviation = (sheetData) => {
-  let dataset = sheetData.map((elem) => parseFloat(elem[1])); // get data Column 'B' values (Column 'A' is names of the rows)
+  let meaningfulData = sheetData
+    .map((elem) => elem[1])
+    .filter((elem) => !isNaN(parseInt(elem)))
+    .map((elem) => parseInt(elem));
+  //let dataset = sheetData.map((elem) => parseFloat(elem[1])); // get data Column 'B' values (Column 'A' is names of the rows)
   let resultState = {};
   resultState.legend = { labels: [] };
   resultState.features = {};
 
-  let stats = new Statistics(dataset);
+  let stats = new Statistics(meaningfulData);
   console.log("statistics", stats.getStats());
   // set feature data
   sheetData.forEach((arr) => {
     let key = arr[0];
     let value = arr[1];
-    resultState.features[key] = {
-      label: key,
-      data: bigNumberFormatter(value.toString()), //value,
-      color: MAP_SETTINGS.COLOR_PALETTE[getStdDevIntervalIndex(stats.interval(value), MAP_SETTINGS.COLOR_PALETTE.length)],
-      opacity: 0.5 + stats.interval(value) * 0.16,
-    };
+    if (parseInt(value) || value == 0) {
+      resultState.features[key] = {
+        label: key,
+        data: bigNumberFormatter(value.toString()),
+        color: MAP_SETTINGS.COLOR_PALETTE[getStdDevIntervalIndex(stats.interval(value), MAP_SETTINGS.COLOR_PALETTE.length)],
+        opacity: 0.5 + stats.interval(value) * 0.16,
+      };
+    } else {
+      resultState.features[key] = {
+        label: key,
+        data: "",
+        color: "",
+        opacity: undefined,
+      };
+    }
   });
   // set legend labels
   resultState.legend.labels = [
@@ -276,14 +313,18 @@ calcMapStateChoroplethStandardDeviation = (sheetData) => {
 };
 
 calcMapStateChoroplethPrettyBreaks = (sheetData, TOTAL_INTERVAL = 10) => {
-  let dataset = sheetData.map((elem) => parseFloat(elem[1])); // get data Column 'B' values (Column 'A' is names of the rows)
+  let meaningfulData = sheetData
+    .map((elem) => elem[1])
+    .filter((elem) => !isNaN(parseInt(elem)))
+    .map((elem) => parseFloat(elem));
+  //let dataset = sheetData.map((elem) => parseFloat(elem[1])); // get data Column 'B' values (Column 'A' is names of the rows)
   let resultState = {};
   resultState.features = {};
   resultState.legend = { labels: [] };
-
-  dataset.sort((a, b) => a - b);
-  console.log("DATASET SORTED", dataset);
-  let lookupTable = dataset.map((elem, i, arr) => {
+  console.log({ meaningfulData });
+  meaningfulData.sort((a, b) => a - b);
+  console.log("meaningfulData SORTED", meaningfulData);
+  let lookupTable = meaningfulData.map((elem, i, arr) => {
     return {
       index: i,
       value: elem,
@@ -305,12 +346,21 @@ calcMapStateChoroplethPrettyBreaks = (sheetData, TOTAL_INTERVAL = 10) => {
   sheetData.forEach((arr) => {
     let key = arr[0];
     let value = arr[1];
-    resultState.features[key] = {
-      label: key,
-      data: bigNumberFormatter(value.toString()),
-      color: MAP_SETTINGS.COLOR_PALETTE[getNormalizedColorPaletteIndex(getIntervalIndex(intervalArr, value), TOTAL_INTERVAL)],
-      opacity: (getNormalizedColorPaletteIndex(getIntervalIndex(intervalArr, value), TOTAL_INTERVAL) + 1) / 10,
-    };
+    if (parseInt(value) || value == 0) {
+      resultState.features[key] = {
+        label: key,
+        data: bigNumberFormatter(value.toString()),
+        color: MAP_SETTINGS.COLOR_PALETTE[getNormalizedColorPaletteIndex(getIntervalIndex(intervalArr, value), TOTAL_INTERVAL)],
+        opacity: (getNormalizedColorPaletteIndex(getIntervalIndex(intervalArr, value), TOTAL_INTERVAL) + 1) / 10,
+      };
+    } else {
+      resultState.features[key] = {
+        label: key,
+        data: "",
+        color: "",
+        opacity: undefined,
+      };
+    }
   });
   // set legend labels
   resultState.legend.labels = [];
@@ -404,6 +454,9 @@ function colorIndex(value) {
 }
 
 function bigNumberFormatter(str) {
+  if (!parseInt(str)) {
+    return str;
+  }
   let formatter = new Intl.NumberFormat("tr-TR", {
     //style: 'currency',
     //currency: 'TRY',

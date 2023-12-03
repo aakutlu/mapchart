@@ -17,6 +17,7 @@ class Sheet {
     return response.json();
   };
   initialize = async () => {
+    $(this.container).empty();
     this.data = await Sheet.getJsonSource(this.source);
     this.sheet = jspreadsheet(this.container, {
       data: this.data,

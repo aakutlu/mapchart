@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="cdnjs/jquery-3.7.0.js"></script>
+    <script src="svgmap.js"></script>
+    <title>Document</title>
+    <style>
+      #mapcontainer {
+        width: 1000px;
+        height: 500px;
+        border: solid 1px black;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Svg Map Container</h1>
+    <div id="mapcontainer"></div>
+    <script>
+      let myMap = undefined;
+      $(document).ready(() => {
+        myMap = new SvgMap("maps/TR.svg", $("#mapcontainer")[0], null);
+        myMap.init();
+      });
+    </script>
+  </body>
+</html>

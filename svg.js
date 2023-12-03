@@ -81,6 +81,8 @@ class Svg {
   initialize = () => {
     $(this.container).empty();
     this.container.insertAdjacentHTML("beforeend", this.sourceSvg);
+    let styles = $("#hiddenSvg defs").html()
+    $(this.container).find("svg")[0].insertAdjacentHTML("afterbegin",`<defs>${styles}</defs>` )
     this.paintBackground(null)
     this.paintFeaturesAll();
     this.injectFeatureLabels();
@@ -126,7 +128,7 @@ class Svg {
       }) */
     
 
-    console.log('this.state', this.state.features)
+    //console.log('this.state', this.state.features)
     this.refresh()
   }
   setTitle = (title) => {
@@ -177,7 +179,6 @@ setFeaturesDataVisibility = (bool) => {
       //$(this.container).find(`g#features #${id}`).css("fill-opacity", "1");
       let color = $(this.container).find(`g#features #${id}`).css("fill");
       root.style.setProperty('--color1', color);
-      console.log(rootStyle.getPropertyValue('--color1'));
       $(this.container).find(`g#features #${id}`).css("fill", "url(#striped-thin)");
     });
   };
@@ -223,7 +224,7 @@ setFeaturesDataVisibility = (bool) => {
     Object.keys(this.state.features).forEach((key) => {
       let feature = this.state.features[key];
       let gElem = $(this.container).find(`g#features #${key}`)[0];
-      console.log(gElem)
+      //console.log(gElem)
       if(gElem){
         let svgRect = gElem.getBBox();
         let target = $("g#data-section")[0];
@@ -322,6 +323,7 @@ setFeaturesDataVisibility = (bool) => {
     let coor = calcPosition($(this.container).find("svg").attr("viewBox"), position, legendContainer.getBBox());
     $(legendContainer).attr("transform", `translate(${coor.posX},${coor.posY})`)[0];
   };
+
   injectColorLegendCircle = (position) => {
     let legendContainer = $(this.container).find("g#legend")[0];
     let x = 0;
@@ -335,11 +337,13 @@ setFeaturesDataVisibility = (bool) => {
     let coor = calcPosition($(this.container).find("svg").attr("viewBox"), position, legendContainer.getBBox());
     $(legendContainer).attr("transform", `translate(${coor.posX},${coor.posY})`)[0];
   };
+
   injectChoroplethLegend = (position) => {
     let legendContainer = $(this.container).find("g#legend")[0];
     let x = 0;
     let y = 0;
-    let width = 80;
+    let horizontalPlane = 600;
+    let width = horizontalPlane / 10;
     let counter = 0;
     this.state.legend.labels.forEach((label) => {
       counter += width;
@@ -351,39 +355,55 @@ setFeaturesDataVisibility = (bool) => {
       legendContainer.insertAdjacentHTML("beforeend", `<text class="" x="${x + counter + width / 2}" y="${y - 10}">${label.text}</text>`);
     });
 
-      //PLOT GRAPHS
+    //filter meaningfull data
     let features = this.state.features
-    let plotArr = []
-    Object.entries(features).forEach(arr => {
-      let [key,obj] = arr;
-      let num = parseInt(obj.data)
-      if(plotArr[num] == undefined)
-        plotArr[num] = 1;
-      else if(plotArr[num] >= 0)
-        plotArr[num]++;
-      else{
-        //do nothing
+    let integers = []
+    Object.values(features).forEach(feature => {
+      if(feature.data){
+        integers.push(parseInt(feature.data))
       }
     })
-    for (let i = 0; i < plotArr.length; i++) {
-      plotArr[i] ??= 0; 
-    }
-    console.log(plotArr)
-    let interval = this.state.legend.labels.length;
-    console.log({interval})
-    plotArr.forEach((elem,i,arr) => {
-      let px = parseInt((x + width + i/(arr.length-1)*interval*width))
-      console.log({px,width, i,arr, interval, width})
-      if(elem){
-        legendContainer.insertAdjacentHTML("beforeend", `<path d="M ${px} ${y+20} L ${px} ${20+elem*6}" stroke="red" stroke-width="6"/>`);
-      }
-    })
+    //create histogram arr
+    let histogramArr = histogram(integers,0,100);
+    this.injectHistogram(histogramArr,position)
 
-
+    //translate legend container
     let coor = calcPosition($(this.container).find("svg").attr("viewBox"), position, legendContainer.getBBox(), 100);
     $(legendContainer).attr("transform", `translate(${coor.posX},${coor.posY})`)[0];
     $(legendContainer).addClass('choropleth')
   };
+
+  injectHistogram = (histogram,position) => {
+    let histogramContainer = $(this.container).find("g#histogram")[0];
+    console.log(histogram)
+    let x = 0;
+    let y = 0;
+    let horizontalPlane = 600;
+    let STRIPE_LENGTH = 4;
+    let SCALE_FACTOR = horizontalPlane / (histogram.length-1);
+    console.log({histogram})
+    histogram.forEach((elem,i,arr) => {
+      let px = parseInt((x + i * SCALE_FACTOR))
+      if(elem){
+        histogramContainer.insertAdjacentHTML("beforeend", `<path d="M ${px} ${y} L ${px} ${y-elem*STRIPE_LENGTH}" stroke="black" stroke-width="3"/>`);
+      }
+    });
+    //print horizontal plane
+    histogramContainer.insertAdjacentHTML("beforeend", `<path d="M ${x} ${y} L ${horizontalPlane} ${y}" stroke="black" stroke-width="1"/>`);
+    for (let i = 0; i < histogram.length; i++) {
+      if(i%10 === 0){
+        histogramContainer.insertAdjacentHTML("beforeend", `<path d="M ${i*SCALE_FACTOR} ${y-3} L ${i*SCALE_FACTOR} ${y+3}" stroke="black" stroke-width="1"/>`);
+        histogramContainer.insertAdjacentHTML("beforeend", `<text class="histogram" x="${i*SCALE_FACTOR}" y="${y + 10}">${i.toString()}</text>`);
+      }
+      if(i%5 === 0){
+        histogramContainer.insertAdjacentHTML("beforeend", `<path d="M ${i*SCALE_FACTOR} ${y-2} L ${i*SCALE_FACTOR} ${y+2}" stroke="black" stroke-width="1"/>`);
+      }
+    }
+
+    let coor = calcPosition($(this.container).find("svg").attr("viewBox"), position, histogramContainer.getBBox(), 50);
+    $(histogramContainer).attr("transform", `translate(${coor.posX},${coor.posY})`)[0];
+    //$(histogramContainer).addClass('choropleth')
+  }
 
 
 /*   showDatas = () => {
@@ -469,4 +489,14 @@ function calcPosition(viewPort, positionString, bbox, margin) {
     console.log(`Wrong position String: ${positionString} returning center by default`);
     return { posX: vp.x + vp.width / 2, posY: vp.y + vp.height / 2};
   }
+}
+
+function histogram(arr,start,end) {
+  let histogram = Array(end+1).fill(0);
+  //calc frequencies
+  arr.forEach(elem => {
+    elem = parseInt(elem)
+    histogram[elem]++;
+  })
+  return histogram;
 }
